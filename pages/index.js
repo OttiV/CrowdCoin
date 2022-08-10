@@ -2,16 +2,25 @@ import { Component } from 'react';
 import factory from '../ethereum/factory';
 
 class CampaignIndex extends Component {
-  async componentDidMount() {
-    if (window !== undefined) {
-      const campaigns = await factory.methods.getDeployedCampaigns().call();
+  static async getInitialProps() {
+    const campaigns = await factory.methods.getDeployedCampaigns().call();
 
-      console.log('campaigns', campaigns);
-    }
+    return { campaigns };
   }
 
   render() {
-    return <div>Campaign index</div>;
+    const { campaigns } = this.props;
+    
+    return (
+      <div>
+        <div>Campaign index</div>
+        <div>
+          {campaigns.map((campaign) => (
+            <div key={campaign}>{campaign}</div>
+          ))}
+        </div>
+      </div>
+    );
   }
 }
 

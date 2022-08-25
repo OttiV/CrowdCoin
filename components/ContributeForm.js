@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Message } from 'semantic-ui-react';
+import { Button, Form, Input } from 'semantic-ui-react';
 import { Campaign, web3 } from '@/ethereum';
 import { Router } from '@/routes';
+import ErrorMessage from './ErrorMessage';
 
 const ContributeForm = ({ address }) => {
-  
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -40,7 +40,7 @@ const ContributeForm = ({ address }) => {
           labelPosition="right"
         />
       </Form.Field>
-      <Message error header="Oops" content={errorMessage} />
+      <ErrorMessage message={errorMessage} />
       <Button primary loading={loading}>
         Contribute!
       </Button>

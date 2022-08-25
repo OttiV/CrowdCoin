@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Button, Form, Input, Message } from 'semantic-ui-react';
-import { Layout } from '@/components';
+import { Button, Form, Input } from 'semantic-ui-react';
+import { ErrorMessage, Layout } from '@/components';
 import { factory, web3 } from '@/ethereum';
 import { Router } from '@/routes';
 
@@ -39,7 +39,7 @@ const CampaignNewIndex = () => {
             onChange={(e) => setMinimumContribution(e.target.value)}
           />
         </Form.Field>
-        <Message error header="Oops!" content={errorMessage} />
+        <ErrorMessage message={errorMessage} />
         <Button primary type="submit" loading={isLoading}>
           Create
         </Button>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Button, Message, Input } from 'semantic-ui-react';
-import { Layout } from '@/components';
+import { Form, Button, Input } from 'semantic-ui-react';
+import { ErrorMessage, Layout } from '@/components';
 import { Campaign, web3 } from '@/ethereum';
 import { Link, Router } from '@/routes';
 
@@ -71,7 +71,7 @@ class RequestNew extends Component {
               onChange={(e) => this.setState({ recipient: e.target.value })}
             />
           </Form.Field>
-          <Message error header="Oops" content={errorMessage} />
+          <ErrorMessage message={errorMessage} />
           <Button primary loading={loading}>
             Create
           </Button>

@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Button, Card } from 'semantic-ui-react';
-import factory from '@/ethereum/factory';
+import { factory } from '@/ethereum';
 import { Layout } from '@/components';
 import { Link } from '@/routes';
 

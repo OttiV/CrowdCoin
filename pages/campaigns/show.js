@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Card, Grid } from 'semantic-ui-react';
-import { ContributeForm, Layout } from '../../components';
-import getCampaign from '../../ethereum/campaign';
-import web3 from '../../ethereum/web3';
-import { Link } from '../../routes';
+import { ContributeForm, Layout } from '@/components';
+import getCampaign from '@/ethereum/campaign';
+import web3 from '@/ethereum/web3';
+import { Link } from '@/routes';
 
 class CampaignShow extends Component {
   static async getInitialProps(props) {

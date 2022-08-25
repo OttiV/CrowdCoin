@@ -12,7 +12,7 @@ class RequestIndex extends Component {
     const requestCount = await campaign.methods.getRequestsCount().call();
 
     const requests = await Promise.all(
-      Array(requestCount)
+      Array(parseInt(requestCount))
         .fill()
         .map((el, index) => {
           return campaign.methods.requests(index).call();
@@ -22,21 +22,22 @@ class RequestIndex extends Component {
     return { address, requests, requestCount, approversCount };
   }
 
-  render() {
-    const { Header, Row, HeaderCell, Body } = Table;
-    const { address, requests, requestCount, approversCount } = this.props;
-
-    const renderRows = () => {
-      return requests.map((request, index) => (
+  renderRows() {
+    return this.props.requests.map((request, index) => {
+      return (
         <RequestRow
           key={index}
           id={index}
           request={request}
-          address={address}
-          approversCount={approversCount}
+          address={this.props.address}
+          approversCount={this.props.approversCount}
         />
-      ));
-    };
+      );
+    });
+  }
+
+  render() {
+    const { Header, Row, HeaderCell, Body } = Table;
 
     return (
       <Layout>
@@ -60,10 +61,10 @@ class RequestIndex extends Component {
               <HeaderCell>Finalize</HeaderCell>
             </Row>
           </Header>
-          <Body>{renderRows()}</Body>
+          <Body>{this.renderRows()}</Body>
         </Table>
-        <div>{`Found ${requestCount} request${
-          requestCount !== 1 ? 's' : ''
+        <div>{`Found ${this.props.requestCount} request${
+          this.props.requestCount !== 1 ? 's' : ''
         }`}</div>
       </Layout>
     );

@@ -22,27 +22,32 @@ class RequestIndex extends Component {
     return { address, requests, requestCount, approversCount };
   }
 
-  renderRows() {
-    return this.props.requests.map((request, index) => {
-      return (
-        <RequestRow
-          key={index}
-          id={index}
-          request={request}
-          address={this.props.address}
-          approversCount={this.props.approversCount}
-        />
-      );
-    });
-  }
-
   render() {
     const { Header, Row, HeaderCell, Body } = Table;
+    const { address, requests, requestCount, approversCount } = this.props;
+
+    const renderRows = () => {
+      return requests.map((request, index) => {
+        return (
+          <RequestRow
+            key={index}
+            id={index}
+            request={request}
+            address={address}
+            approversCount={approversCount}
+          />
+        );
+      });
+    };
+
+    const requestsTotalText = `Found ${requestCount} request${
+      parseInt(requestCount) === 1 ? '' : 's'
+    }`;
 
     return (
       <Layout>
         <h3>Request List</h3>
-        <Link route={`/campaigns/${this.props.address}/requests/new`}>
+        <Link route={`/campaigns/${address}/requests/new`}>
           <a>
             <Button primary floated="right" style={{ marginBottom: 10 }}>
               Add Request
@@ -61,11 +66,9 @@ class RequestIndex extends Component {
               <HeaderCell>Finalize</HeaderCell>
             </Row>
           </Header>
-          <Body>{this.renderRows()}</Body>
+          <Body>{renderRows()}</Body>
         </Table>
-        <div>{`Found ${this.props.requestCount} request${
-          this.props.requestCount !== 1 ? 's' : ''
-        }`}</div>
+        <div>{requestsTotalText}</div>
       </Layout>
     );
   }

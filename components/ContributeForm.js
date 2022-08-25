@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, Input, Message } from 'semantic-ui-react';
-import Campaign from '../ethereum/campaign';
-import web3 from '../ethereum/web3';
-import { Router } from '../routes';
+import { Campaign, web3 } from '@/ethereum';
+import { Router } from '@/routes';
 
 class ContributeForm extends Component {
   state = {

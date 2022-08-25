@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Table } from 'semantic-ui-react';
-import Campaign from '../ethereum/campaign';
-import web3 from '../ethereum/web3';
+import { Campaign, web3 } from '@/ethereum';
 
 const RequestRow = ({ id, request, address, approversCount }) => {
   const { Row, Cell } = Table;

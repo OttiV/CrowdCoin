@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Button, Card, Grid } from 'semantic-ui-react';
-import { ContributeForm, Layout } from '../../components';
-import getCampaign from '../../ethereum/campaign';
-import web3 from '../../ethereum/web3';
-import { Link } from '../../routes';
+import { ContributeForm, Layout } from '@/components';
+import { Campaign, web3 } from '@/ethereum';
+import { Link } from '@/routes';
 
 class CampaignShow extends Component {
   static async getInitialProps(props) {
-    const campaign = await getCampaign(props.query.address);
+    const campaign = await Campaign(props.query.address);
     const summary = await campaign.methods.getSummary().call();
     return {
       address: props.query.address,

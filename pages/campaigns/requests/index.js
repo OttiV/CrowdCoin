@@ -26,20 +26,6 @@ class RequestIndex extends Component {
     const { Header, Row, HeaderCell, Body } = Table;
     const { address, requests, requestCount, approversCount } = this.props;
 
-    const renderRows = () => {
-      return requests.map((request, index) => {
-        return (
-          <RequestRow
-            key={index}
-            id={index}
-            request={request}
-            address={address}
-            approversCount={approversCount}
-          />
-        );
-      });
-    };
-
     const requestsTotalText = `Found ${requestCount} request${
       parseInt(requestCount) === 1 ? '' : 's'
     }`;
@@ -66,7 +52,17 @@ class RequestIndex extends Component {
               <HeaderCell>Finalize</HeaderCell>
             </Row>
           </Header>
-          <Body>{renderRows()}</Body>
+          <Body>
+            {requests.map((request, index) => (
+              <RequestRow
+                key={address}
+                id={index}
+                request={request}
+                address={address}
+                approversCount={approversCount}
+              />
+            ))}
+          </Body>
         </Table>
         <div>{requestsTotalText}</div>
       </Layout>

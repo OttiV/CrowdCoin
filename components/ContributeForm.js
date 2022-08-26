@@ -28,10 +28,10 @@ const ContributeForm = ({ address }) => {
     setValue('');
     setLoading(false);
   };
-
+  const { Field } = Form;
   return (
     <Form onSubmit={onSubmit} error={!!errorMessage}>
-      <Form.Field>
+      <Field>
         <label>Amount to contribute</label>
         <Input
           value={value}
@@ -39,7 +39,7 @@ const ContributeForm = ({ address }) => {
           label="ether"
           labelPosition="right"
         />
-      </Form.Field>
+      </Field>
       <ErrorMessage message={errorMessage} />
       <Button primary loading={loading}>
         Contribute!

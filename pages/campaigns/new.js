@@ -25,12 +25,12 @@ const CampaignNewIndex = () => {
     }
     setIsLoading(false);
   };
-
+  const { Field } = Form;
   return (
     <Layout>
       <h3>Create a Campaign</h3>
       <Form onSubmit={onSubmit} error={!!errorMessage}>
-        <Form.Field>
+        <Field>
           <label>Minimum contribution</label>
           <Input
             label="wei"
@@ -38,7 +38,7 @@ const CampaignNewIndex = () => {
             value={minimumContribution}
             onChange={(e) => setMinimumContribution(e.target.value)}
           />
-        </Form.Field>
+        </Field>
         <ErrorMessage message={errorMessage} />
         <Button primary type="submit" loading={isLoading}>
           Create

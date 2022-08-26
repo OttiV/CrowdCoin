@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Table } from 'semantic-ui-react';
-import { ErrorMessage, Layout, RequestRow } from '@/components';
+import { BackLink, ErrorMessage, Layout, RequestRow } from '@/components';
 import { Campaign } from '@/ethereum';
 import { Link } from '@/routes';
 
@@ -41,9 +41,7 @@ class RequestIndex extends Component {
 
     return (
       <Layout>
-        <Link route={`/campaigns/${address}`}>
-          <a>Back</a>
-        </Link>
+        <BackLink route={`/campaigns/${address}`} />
         <h3>Request List</h3>
         <Link route={`/campaigns/${address}/requests/new`}>
           <a>
@@ -67,7 +65,7 @@ class RequestIndex extends Component {
           <Body>
             {requests.map((request, index) => (
               <RequestRow
-                key={address}
+                key={`${address}${index}`}
                 id={index}
                 request={request}
                 address={address}

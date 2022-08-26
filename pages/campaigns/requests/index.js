@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Button, Table } from 'semantic-ui-react';
-import { Layout, RequestRow } from '@/components';
+import { ErrorMessage, Layout, RequestRow } from '@/components';
 import { Campaign } from '@/ethereum';
 import { Link } from '@/routes';
 
 class RequestIndex extends Component {
+  state = {
+    errorMessage: '',
+  };
+
   static async getInitialProps(props) {
     const { address } = props.query;
     const campaign = Campaign(address);
@@ -25,13 +29,21 @@ class RequestIndex extends Component {
   render() {
     const { Header, Row, HeaderCell, Body } = Table;
     const { address, requests, requestCount, approversCount } = this.props;
+    const { errorMessage } = this.state;
 
     const requestsTotalText = `Found ${requestCount} request${
       parseInt(requestCount) === 1 ? '' : 's'
     }`;
 
+    const setErrorMessage = (error) => {
+      this.setState({ errorMessage: error });
+    };
+
     return (
       <Layout>
+        <Link route={`/campaigns/${address}`}>
+          <a>Back</a>
+        </Link>
         <h3>Request List</h3>
         <Link route={`/campaigns/${address}/requests/new`}>
           <a>
@@ -60,11 +72,13 @@ class RequestIndex extends Component {
                 request={request}
                 address={address}
                 approversCount={approversCount}
+                setErrorMessage={setErrorMessage}
               />
             ))}
           </Body>
         </Table>
         <div>{requestsTotalText}</div>
+        {errorMessage && <ErrorMessage message={errorMessage} />}
       </Layout>
     );
   }

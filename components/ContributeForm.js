@@ -1,53 +1,51 @@
-import React, { Component } from 'react';
-import { Button, Form, Input, Message } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Button, Form, Input } from 'semantic-ui-react';
 import { Campaign, web3 } from '@/ethereum';
 import { Router } from '@/routes';
+import ErrorMessage from './ErrorMessage';
 
-class ContributeForm extends Component {
-  state = {
-    value: '',
-    errorMessage: '',
-    loading: false,
-  };
+const ContributeForm = ({ address }) => {
+  const [value, setValue] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  onSubmit = async (e) => {
-    const { address } = this.props;
+  const onSubmit = async (e) => {
     e.preventDefault();
     const campaign = Campaign(address);
-    this.setState({ loading: true, errorMessage: '' });
+    setLoading(true);
+    setErrorMessage('');
+
     try {
       const accounts = await web3.eth.getAccounts();
       await campaign.methods.contribute().send({
         from: accounts[0],
-        value: web3.utils.toWei(this.state.value, 'ether'),
+        value: web3.utils.toWei(value, 'ether'),
       });
       Router.replaceRoute(`/campaigns/${address}`);
     } catch (err) {
-      this.setState({ errorMessage: err.message });
+      setErrorMessage(err.message);
     }
-    this.setState({ loading: false, value: '' });
+    setValue('');
+    setLoading(false);
   };
-
-  render() {
-    const { errorMessage, value, loading } = this.state;
-    return (
-      <Form onSubmit={this.onSubmit} error={!!errorMessage}>
-        <Form.Field>
-          <label>Amount to contribute</label>
-          <Input
-            value={value}
-            onChange={(e) => this.setState({ value: e.target.value })}
-            label="ether"
-            labelPosition="right"
-          />
-        </Form.Field>
-        <Message error header="Oops" content={errorMessage} />
-        <Button primary loading={loading}>
-          Contribute!
-        </Button>
-      </Form>
-    );
-  }
-}
+  const { Field } = Form;
+  return (
+    <Form onSubmit={onSubmit} error={!!errorMessage}>
+      <Field>
+        <label>Amount to contribute</label>
+        <Input
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          label="ether"
+          labelPosition="right"
+        />
+      </Field>
+      <ErrorMessage message={errorMessage} />
+      <Button primary loading={loading}>
+        Contribute!
+      </Button>
+    </Form>
+  );
+};
 
 export default ContributeForm;

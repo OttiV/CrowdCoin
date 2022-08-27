@@ -1,58 +1,51 @@
-import { Component } from 'react';
-import { Button, Form, Input, Message } from 'semantic-ui-react';
-import { Layout } from '@/components';
+import { useState } from 'react';
+import { Button, Form, Input } from 'semantic-ui-react';
+import { ErrorMessage, Layout } from '@/components';
 import { factory, web3 } from '@/ethereum';
 import { Router } from '@/routes';
 
-class CampaignNewIndex extends Component {
-  state = {
-    minimumContribution: '',
-    errorMessage: '',
-    isLoading: false,
-  };
+const CampaignNewIndex = () => {
+  const [minimumContribution, setMinimumContribution] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  onSubmit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    this.setState({ isLoading: true, errorMessage: '' });
+
+    setIsLoading(true);
+    setErrorMessage('');
     try {
       const accounts = await web3.eth.getAccounts();
-      await factory.methods
-        .createCampaign(this.state.minimumContribution)
-        .send({
-          from: accounts[0],
-        });
+      await factory.methods.createCampaign(minimumContribution).send({
+        from: accounts[0],
+      });
       Router.pushRoute('/');
     } catch (err) {
-      this.setState({ errorMessage: err.message });
+      setErrorMessage(err.message);
     }
-    this.setState({ isLoading: false });
+    setIsLoading(false);
   };
-
-  render() {
-    const { errorMessage, isLoading, minimumContribution } = this.state;
-    return (
-      <Layout>
-        <h3>Create a Campaign</h3>
-        <Form onSubmit={this.onSubmit} error={!!errorMessage}>
-          <Form.Field>
-            <label>Minimum contribution</label>
-            <Input
-              label="wei"
-              labelPosition="right"
-              value={minimumContribution}
-              onChange={(e) =>
-                this.setState({ minimumContribution: e.target.value })
-              }
-            />
-          </Form.Field>
-          <Message error header="Oops!" content={errorMessage} />
-          <Button primary type="submit" loading={isLoading}>
-            Create
-          </Button>
-        </Form>
-      </Layout>
-    );
-  }
-}
+  const { Field } = Form;
+  return (
+    <Layout>
+      <h3>Create a Campaign</h3>
+      <Form onSubmit={onSubmit} error={!!errorMessage}>
+        <Field>
+          <label>Minimum contribution</label>
+          <Input
+            label="wei"
+            labelPosition="right"
+            value={minimumContribution}
+            onChange={(e) => setMinimumContribution(e.target.value)}
+          />
+        </Field>
+        <ErrorMessage message={errorMessage} />
+        <Button primary type="submit" loading={isLoading}>
+          Create
+        </Button>
+      </Form>
+    </Layout>
+  );
+};
 
 export default CampaignNewIndex;

@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Button, Table } from 'semantic-ui-react';
-import { Layout, RequestRow } from '@/components';
+import { BackLink, ErrorMessage, Layout, RequestRow } from '@/components';
 import { Campaign } from '@/ethereum';
 import { Link } from '@/routes';
 
 class RequestIndex extends Component {
+  state = {
+    errorMessage: '',
+  };
+
   static async getInitialProps(props) {
     const { address } = props.query;
     const campaign = Campaign(address);
@@ -22,27 +26,24 @@ class RequestIndex extends Component {
     return { address, requests, requestCount, approversCount };
   }
 
-  renderRows() {
-    return this.props.requests.map((request, index) => {
-      return (
-        <RequestRow
-          key={index}
-          id={index}
-          request={request}
-          address={this.props.address}
-          approversCount={this.props.approversCount}
-        />
-      );
-    });
-  }
-
   render() {
     const { Header, Row, HeaderCell, Body } = Table;
+    const { address, requests, requestCount, approversCount } = this.props;
+    const { errorMessage } = this.state;
+
+    const requestsTotalText = `Found ${requestCount} request${
+      parseInt(requestCount) === 1 ? '' : 's'
+    }`;
+
+    const setErrorMessage = (error) => {
+      this.setState({ errorMessage: error });
+    };
 
     return (
       <Layout>
+        <BackLink route={`/campaigns/${address}`} />
         <h3>Request List</h3>
-        <Link route={`/campaigns/${this.props.address}/requests/new`}>
+        <Link route={`/campaigns/${address}/requests/new`}>
           <a>
             <Button primary floated="right" style={{ marginBottom: 10 }}>
               Add Request
@@ -61,11 +62,21 @@ class RequestIndex extends Component {
               <HeaderCell>Finalize</HeaderCell>
             </Row>
           </Header>
-          <Body>{this.renderRows()}</Body>
+          <Body>
+            {requests.map((request, index) => (
+              <RequestRow
+                key={`${address}${index}`}
+                id={index}
+                request={request}
+                address={address}
+                approversCount={approversCount}
+                setErrorMessage={setErrorMessage}
+              />
+            ))}
+          </Body>
         </Table>
-        <div>{`Found ${this.props.requestCount} request${
-          this.props.requestCount !== 1 ? 's' : ''
-        }`}</div>
+        <div>{requestsTotalText}</div>
+        {errorMessage && <ErrorMessage message={errorMessage} />}
       </Layout>
     );
   }

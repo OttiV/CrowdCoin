@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Form, Button, Message, Input } from 'semantic-ui-react';
-import { Layout } from '@/components';
+import { Form, Button, Input } from 'semantic-ui-react';
+import { BackLink, ErrorMessage, Layout } from '@/components';
 import { Campaign, web3 } from '@/ethereum';
-import { Link, Router } from '@/routes';
+import { Router } from '@/routes';
 
 class RequestNew extends Component {
   state = {
@@ -42,36 +42,34 @@ class RequestNew extends Component {
   render() {
     const { value, description, recipient, errorMessage, loading } = this.state;
     const { address } = this.props;
-
+    const { Field } = Form;
     return (
       <Layout>
-        <Link route={`/campaigns/${address}/requests`}>
-          <a>Back</a>
-        </Link>
+        <BackLink route={`/campaigns/${address}/requests`} />
         <h3>Create a Request</h3>
         <Form onSubmit={this.onSubmit} error={!!errorMessage}>
-          <Form.Field>
+          <Field>
             <label>Description</label>
             <Input
               value={description}
               onChange={(e) => this.setState({ description: e.target.value })}
             />
-          </Form.Field>
-          <Form.Field>
+          </Field>
+          <Field>
             <label>Value in Ether</label>
             <Input
               value={value}
               onChange={(e) => this.setState({ value: e.target.value })}
             />
-          </Form.Field>
-          <Form.Field>
+          </Field>
+          <Field>
             <label>Recipient</label>
             <Input
               value={recipient}
               onChange={(e) => this.setState({ recipient: e.target.value })}
             />
-          </Form.Field>
-          <Message error header="Oops" content={errorMessage} />
+          </Field>
+          <ErrorMessage message={errorMessage} />
           <Button primary loading={loading}>
             Create
           </Button>

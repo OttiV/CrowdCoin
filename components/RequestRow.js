@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Table } from 'semantic-ui-react';
 import { Campaign, web3 } from '@/ethereum';
+import { Router } from '@/routes';
 
 const RequestRow = ({
   id,
@@ -25,6 +26,7 @@ const RequestRow = ({
       const accounts = await web3.eth.getAccounts();
       const campaign = Campaign(address);
       await campaign.methods.approveRequest(id).send({ from: accounts[0] });
+      Router.pushRoute(`/campaigns/${address}/requests`);
     } catch (err) {
       setErrorMessage(err.message);
     }
@@ -39,6 +41,7 @@ const RequestRow = ({
       const accounts = await web3.eth.getAccounts();
       const campaign = Campaign(address);
       await campaign.methods.finalizeRequest(id).send({ from: accounts[0] });
+      Router.pushRoute(`/campaigns/${address}/requests`);
     } catch (err) {
       setErrorMessage(err.message);
     }

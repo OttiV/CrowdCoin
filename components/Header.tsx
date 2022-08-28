@@ -1,5 +1,5 @@
-import React from 'react';
 import { Menu } from 'semantic-ui-react';
+// @ts-ignore
 import { Link } from '@/routes';
 
 const Header = () => (

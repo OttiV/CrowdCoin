@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": true,
+    "baseUrl": "./",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
@@ -9,18 +10,22 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext",
     ],
     "module": "esnext",
+    "moduleResolution":"node",
     "noEmit": true,
+    "paths": {
+      "@/*": ["./*"],
+    },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
   },
   "exclude": [
-    "node_modules"
-  ],
+    "node_modules", ".next"
+],  
   "include": [
     "next-env.d.ts",
     "**/*.ts",

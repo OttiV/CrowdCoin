@@ -1,28 +1,37 @@
-import React, { useState } from 'react';
+import React, { FC, SyntheticEvent, useState } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
+// @ts-ignore
 import { Campaign, web3 } from '@/ethereum';
+// @ts-ignore
 import { Router } from '@/routes';
 import ErrorMessage from './ErrorMessage';
 
-const ContributeForm = ({ address }) => {
+interface ContributeFormProps {
+  address: string
+}
+
+const ContributeForm: FC<ContributeFormProps> = ({ address }) => {
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     const campaign = Campaign(address);
     setLoading(true);
     setErrorMessage('');
 
     try {
+      // @ts-ignore
       const accounts = await web3.eth.getAccounts();
       await campaign.methods.contribute().send({
         from: accounts[0],
+        // @ts-ignore
         value: web3.utils.toWei(value, 'ether'),
       });
       Router.replaceRoute(`/campaigns/${address}`);
     } catch (err) {
+// @ts-ignore
       setErrorMessage(err.message);
     }
     setValue('');

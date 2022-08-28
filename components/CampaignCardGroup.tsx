@@ -1,7 +1,17 @@
 import { Card } from 'semantic-ui-react';
+// @ts-ignore
 import { web3 } from '@/ethereum';
+import { FC } from 'react';
 
-const CampaignCardGroup = ({
+interface CampaignCardGroupProps {
+  manager: string
+  minimumContribution: string
+  requestCount: number
+  approversCount:number
+  balance: string
+}
+
+const CampaignCardGroup: FC<CampaignCardGroupProps> = ({
   manager,
   minimumContribution,
   requestCount,
@@ -38,6 +48,7 @@ const CampaignCardGroup = ({
       style: { overflowWrap: 'break-word' },
     },
     {
+      // @ts-ignore
       header: web3.utils.fromWei(balance, 'ether'),
       meta: 'Campaign Balance (ether)',
       description:

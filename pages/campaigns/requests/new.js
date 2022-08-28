@@ -1,31 +1,22 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import { Form, Button, Input } from 'semantic-ui-react';
 import { BackLink, ErrorMessage, Layout } from '@/components';
 import { Campaign, web3 } from '@/ethereum';
 import { Router } from '@/routes';
 
-class RequestNew extends Component {
-  state = {
-    value: '',
-    description: '',
-    recipient: '',
-    errorMessage: '',
-    loading: false,
-  };
+const RequestNew = ({ address }) => {
+  const { Field } = Form;
+  const [value, setValue] = useState('');
+  const [description, setDescription] = useState('');
+  const [recipient, setRecipient] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  static async getInitialProps(props) {
-    const { address } = props.query;
-    return { address };
-  }
-
-  onSubmit = async (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-
-    const { value, description, recipient } = this.state;
-    const { address } = this.props;
-
     const campaign = Campaign(address);
-    this.setState({ loading: true, errorMessage: '' });
+    setIsLoading(true);
+    setErrorMessage('');
     try {
       const accounts = await web3.eth.getAccounts();
       await campaign.methods
@@ -34,49 +25,46 @@ class RequestNew extends Component {
 
       Router.pushRoute(`/campaigns/${address}/requests`);
     } catch (err) {
-      this.setState({ errorMessage: err.message });
+      setErrorMessage(err.message);
     }
-    this.setState({ loading: false });
+    setIsLoading(false);
   };
 
-  render() {
-    const { value, description, recipient, errorMessage, loading } = this.state;
-    const { address } = this.props;
-    const { Field } = Form;
-    return (
-      <Layout>
-        <BackLink route={`/campaigns/${address}/requests`} />
-        <h3>Create a Request</h3>
-        <Form onSubmit={this.onSubmit} error={!!errorMessage}>
-          <Field>
-            <label>Description</label>
-            <Input
-              value={description}
-              onChange={(e) => this.setState({ description: e.target.value })}
-            />
-          </Field>
-          <Field>
-            <label>Value in Ether</label>
-            <Input
-              value={value}
-              onChange={(e) => this.setState({ value: e.target.value })}
-            />
-          </Field>
-          <Field>
-            <label>Recipient</label>
-            <Input
-              value={recipient}
-              onChange={(e) => this.setState({ recipient: e.target.value })}
-            />
-          </Field>
-          <ErrorMessage message={errorMessage} />
-          <Button primary loading={loading}>
-            Create
-          </Button>
-        </Form>
-      </Layout>
-    );
-  }
-}
+  return (
+    <Layout>
+      <BackLink route={`/campaigns/${address}/requests`} />
+      <h3>Create a Request</h3>
+      <Form onSubmit={onSubmit} error={!!errorMessage}>
+        <Field>
+          <label>Description</label>
+          <Input
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </Field>
+        <Field>
+          <label>Value in Ether</label>
+          <Input value={value} onChange={(e) => setValue(e.target.value)} />
+        </Field>
+        <Field>
+          <label>Recipient</label>
+          <Input
+            value={recipient}
+            onChange={(e) => setRecipient(e.target.value)}
+          />
+        </Field>
+        <ErrorMessage message={errorMessage} />
+        <Button primary loading={isLoading}>
+          Create
+        </Button>
+      </Form>
+    </Layout>
+  );
+};
+
+RequestNew.getInitialProps = (ctx) => {
+  const { address } = ctx.query;
+  return { address };
+};
 
 export default RequestNew;

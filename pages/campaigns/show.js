@@ -1,32 +1,17 @@
-import React, { Component } from 'react';
 import { Button, Card, Grid } from 'semantic-ui-react';
 import { ContributeForm, Layout } from '@/components';
 import { Campaign, web3 } from '@/ethereum';
 import { Link } from '@/routes';
 
-class CampaignShow extends Component {
-  static async getInitialProps(props) {
-    const campaign = await Campaign(props.query.address);
-    const summary = await campaign.methods.getSummary().call();
-    return {
-      address: props.query.address,
-      minimumContribution: summary[0],
-      balance: summary[1],
-      requestCount: summary[2],
-      approversCount: summary[3],
-      manager: summary[4],
-    };
-  }
-
-  renderCards() {
-    const {
-      minimumContribution,
-      balance,
-      requestCount,
-      approversCount,
-      manager,
-    } = this.props;
-
+const CampaignShow = ({
+  address,
+  minimumContribution,
+  balance,
+  requestCount,
+  approversCount,
+  manager,
+}) => {
+  const renderCards = () => {
     const items = [
       {
         header: manager,
@@ -66,33 +51,44 @@ class CampaignShow extends Component {
     ];
 
     return <Card.Group items={items} />;
-  }
+  };
 
-  render() {
-    const { address } = this.props;
-    return (
-      <Layout>
-        <h3>Campaign Details</h3>
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width={10}>{this.renderCards()}</Grid.Column>
-            <Grid.Column width={6}>
-              <ContributeForm address={address} />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column>
-              <Link route={`/campaigns/${address}/requests`}>
-                <a>
-                  <Button primary>View Requests</Button>
-                </a>
-              </Link>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Layout>
-    );
-  }
-}
+  return (
+    <Layout>
+      <h3>Campaign Details</h3>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column width={10}>{renderCards()}</Grid.Column>
+          <Grid.Column width={6}>
+            <ContributeForm address={address} />
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <Link route={`/campaigns/${address}/requests`}>
+              <a>
+                <Button primary>View Requests</Button>
+              </a>
+            </Link>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </Layout>
+  );
+};
+
+CampaignShow.getInitialProps = async (ctx) => {
+  const { address } = ctx.query;
+  const campaign = await Campaign(address);
+  const summary = await campaign.methods.getSummary().call();
+  return {
+    address,
+    minimumContribution: summary[0],
+    balance: summary[1],
+    requestCount: summary[2],
+    approversCount: summary[3],
+    manager: summary[4],
+  };
+};
 
 export default CampaignShow;

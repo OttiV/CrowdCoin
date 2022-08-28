@@ -13,10 +13,12 @@
       "esnext",
     ],
     "module": "esnext",
-    "moduleResolution":"node",
+    "moduleResolution": "node",
     "noEmit": true,
     "paths": {
-      "@/*": ["./*"],
+      "@/*": [
+        "./*"
+      ],
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
@@ -24,8 +26,9 @@
     "target": "esnext",
   },
   "exclude": [
-    "node_modules", ".next"
-],  
+    "node_modules",
+    ".next"
+  ],
   "include": [
     "next-env.d.ts",
     "**/*.ts",

@@ -5,10 +5,10 @@ import { FC } from 'react';
 
 interface CampaignCardGroupProps {
   manager: string
-  minimumContribution: string
+  minimumContribution: number
   requestCount: number
   approversCount:number
-  balance: string
+  balance: number
 }
 
 const CampaignCardGroup: FC<CampaignCardGroupProps> = ({

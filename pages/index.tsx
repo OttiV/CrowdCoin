@@ -1,9 +1,15 @@
+import { NextPage } from 'next';
 import { Button, Card } from 'semantic-ui-react';
-import { factory } from '@/ethereum';
 import { Layout } from '@/components';
+import { factory } from '@/ethereum';
+// @ts-ignore
 import { Link } from '@/routes';
 
-const CampaignIndex = ({ campaigns }) => {
+interface CampaignIndexProps {
+  campaigns: string[]
+}
+
+const CampaignIndex: NextPage<CampaignIndexProps> = ({ campaigns }) => {
   const renderCampaigns = () => {
     const items = campaigns.map((address) => {
       return {

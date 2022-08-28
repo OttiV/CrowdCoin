@@ -1,6 +1,6 @@
-import { Button, Card, Grid } from 'semantic-ui-react';
-import { ContributeForm, Layout } from '@/components';
-import { Campaign, web3 } from '@/ethereum';
+import { Button, Grid } from 'semantic-ui-react';
+import { CampaignCardGroup, ContributeForm, Layout } from '@/components';
+import { Campaign } from '@/ethereum';
 import { Link } from '@/routes';
 
 const CampaignShow = ({
@@ -11,67 +11,34 @@ const CampaignShow = ({
   approversCount,
   manager,
 }) => {
-  const renderCards = () => {
-    const items = [
-      {
-        header: manager,
-        meta: 'Address of manager',
-        description:
-          'The manager created this campaign and can create requests to withdraw money',
-        style: { overflowWrap: 'break-word' },
-      },
-      {
-        header: minimumContribution,
-        meta: 'Minimum Contribution (wei)',
-        description:
-          'You must contribute at least this much wei to become an approver',
-        style: { overflowWrap: 'break-word' },
-      },
-      {
-        header: requestCount,
-        meta: 'Number of requests',
-        description:
-          'A request tries to withdraw monty from the Contract. Requests must be approved by approvers',
-        style: { overflowWrap: 'break-word' },
-      },
-      {
-        header: approversCount,
-        meta: 'Number of approvers',
-        description:
-          'Number of people who have already donated to this campaign',
-        style: { overflowWrap: 'break-word' },
-      },
-      {
-        header: web3.utils.fromWei(balance, 'ether'),
-        meta: 'Campaign Balance (ether)',
-        description:
-          'The balance is how much money the Campaign has left to spend',
-        style: { overflowWrap: 'break-word' },
-      },
-    ];
-
-    return <Card.Group items={items} />;
-  };
-
+  const { Column, Row } = Grid;
   return (
     <Layout>
       <h3>Campaign Details</h3>
       <Grid>
-        <Grid.Row>
-          <Grid.Column width={10}>{renderCards()}</Grid.Column>
-          <Grid.Column width={6}>
+        <Row>
+          <Column width={10}>
+            <CampaignCardGroup
+              manager={manager}
+              minimumContribution={minimumContribution}
+              requestCount={requestCount}
+              approversCount={approversCount}
+              balance={balance}
+            />
+          </Column>
+          <Column width={6}>
             <ContributeForm address={address} />
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
+          </Column>
+        </Row>
+        <Row>
+          <Column>
             <Link route={`/campaigns/${address}/requests`}>
               <a>
                 <Button primary>View Requests</Button>
               </a>
             </Link>
-          </Grid.Column>
-        </Grid.Row>
+          </Column>
+        </Row>
       </Grid>
     </Layout>
   );

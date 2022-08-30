@@ -1,7 +1,6 @@
 import { SyntheticEvent, useState } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
 import { ErrorMessage, Layout } from '@/components';
-// @ts-ignore
 import { factory, web3 } from '@/ethereum';
 // @ts-ignore
 import { Router } from '@/routes';
@@ -18,7 +17,6 @@ const CampaignNewIndex = () => {
     setErrorMessage('');
     try {
       const accounts =
-      // @ts-ignore
         await web3.eth.getAccounts();
       await factory.methods.createCampaign(minimumContribution).send({
         from: accounts[0],

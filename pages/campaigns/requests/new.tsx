@@ -1,7 +1,6 @@
 import { SyntheticEvent, useState } from 'react';
 import { Form, Button, Input } from 'semantic-ui-react';
 import { BackLink, ErrorMessage, Layout } from '@/components';
-// @ts-ignore
 import { Campaign, web3 } from '@/ethereum';
 // @ts-ignore
 import { Router } from '@/routes';
@@ -26,10 +25,8 @@ const RequestNew: NextPage<RequestNewProps> = ({ address }) => {
     setIsLoading(true);
     setErrorMessage('');
     try {
-      // @ts-ignore
       const accounts = await web3.eth.getAccounts();
       await campaign.methods
-      // @ts-ignore
         .createRequest(description, web3.utils.toWei(value, 'ether'), recipient)
         .send({ from: accounts[0] });
 

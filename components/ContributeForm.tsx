@@ -1,6 +1,5 @@
 import React, { FC, SyntheticEvent, useState } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
-// @ts-ignore
 import { Campaign, web3 } from '@/ethereum';
 // @ts-ignore
 import { Router } from '@/routes';
@@ -22,11 +21,9 @@ const ContributeForm: FC<ContributeFormProps> = ({ address }) => {
     setErrorMessage('');
 
     try {
-      // @ts-ignore
       const accounts = await web3.eth.getAccounts();
       await campaign.methods.contribute().send({
         from: accounts[0],
-        // @ts-ignore
         value: web3.utils.toWei(value, 'ether'),
       });
       Router.replaceRoute(`/campaigns/${address}`);

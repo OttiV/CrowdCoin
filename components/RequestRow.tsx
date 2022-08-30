@@ -1,6 +1,5 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { Button, Table } from 'semantic-ui-react';
-// @ts-ignore
 import { Campaign, web3 } from '@/ethereum';
 // @ts-ignore
 import { Router } from '@/routes';
@@ -33,7 +32,7 @@ const RequestRow: FC<RequestRowProps> = ({
 
   const { Row, Cell } = Table;
   const { description, value, recipient, approvalCount, complete } = request;
-  // @ts-ignore
+
   const amount = web3.utils.fromWei(value, 'ether');
   const isReadyToFinalize = approvalCount > approversCount / 2;
 
@@ -42,7 +41,6 @@ const RequestRow: FC<RequestRowProps> = ({
     setIsApproveLoading(true);
     setErrorMessage('');
     try {
-      // @ts-ignore
       const accounts = await web3.eth.getAccounts();
       const campaign = Campaign(address);
       await campaign.methods.approveRequest(id).send({ from: accounts[0] });
@@ -59,7 +57,6 @@ const RequestRow: FC<RequestRowProps> = ({
     setIsFinalizeLoading(true);
     setErrorMessage('');
     try {
-      // @ts-ignore
       const accounts = await web3.eth.getAccounts();
       const campaign = Campaign(address);
       await campaign.methods.finalizeRequest(id).send({ from: accounts[0] });

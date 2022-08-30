@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from 'next/link';
 import { useState } from 'react';
 import { Button, Table } from 'semantic-ui-react';
 import { BackLink, ErrorMessage, Layout, RequestRow } from '@/components';
@@ -14,14 +14,18 @@ interface Request {
 }
 
 interface RequestNewProps {
-  address: string
-   requests: Request[]
-   requestCount: string
-   approversCount: number
-
+  address: string;
+  requests: Request[];
+  requestCount: string;
+  approversCount: number;
 }
 // @ts-ignore
-const RequestIndex:NextPage<RequestNewProps> = ({ address, requests, requestCount, approversCount }) => {
+const RequestIndex: NextPage<RequestNewProps> = ({
+  address,
+  requests,
+  requestCount,
+  approversCount,
+}) => {
   const [errorMessage, setErrorMessage] = useState('');
   const { Header, Row, HeaderCell, Body } = Table;
 
@@ -80,8 +84,7 @@ RequestIndex.getInitialProps = async (ctx) => {
 
   const requests = await Promise.all(
     Array(parseInt(requestCount))
-    // @ts-ignore
-      .fill()
+      .fill(0)
       .map((el, index) => {
         return campaign.methods.requests(index).call();
       })

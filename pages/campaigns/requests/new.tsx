@@ -1,10 +1,18 @@
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { Form, Button, Input } from 'semantic-ui-react';
 import { BackLink, ErrorMessage, Layout } from '@/components';
+// @ts-ignore
 import { Campaign, web3 } from '@/ethereum';
+// @ts-ignore
 import { Router } from '@/routes';
+import { NextPage } from 'next';
 
-const RequestNew = ({ address }) => {
+interface RequestNewProps{
+  address: string
+}
+
+// @ts-ignore
+const RequestNew: NextPage<RequestNewProps> = ({ address }) => {
   const { Field } = Form;
   const [value, setValue] = useState('');
   const [description, setDescription] = useState('');
@@ -12,19 +20,22 @@ const RequestNew = ({ address }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (event) => {
+  const onSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
     const campaign = Campaign(address);
     setIsLoading(true);
     setErrorMessage('');
     try {
+      // @ts-ignore
       const accounts = await web3.eth.getAccounts();
       await campaign.methods
+      // @ts-ignore
         .createRequest(description, web3.utils.toWei(value, 'ether'), recipient)
         .send({ from: accounts[0] });
 
       Router.pushRoute(`/campaigns/${address}/requests`);
     } catch (err) {
+      // @ts-ignore
       setErrorMessage(err.message);
     }
     setIsLoading(false);
@@ -62,6 +73,7 @@ const RequestNew = ({ address }) => {
   );
 };
 
+// @ts-ignore
 RequestNew.getInitialProps = (ctx) => {
   const { address } = ctx.query;
   return { address };

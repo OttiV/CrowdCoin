@@ -1,9 +1,20 @@
 import { Button, Grid } from 'semantic-ui-react';
 import { CampaignCardGroup, ContributeForm, Layout } from '@/components';
 import { Campaign } from '@/ethereum';
+// @ts-ignore
 import { Link } from '@/routes';
+import { NextPage } from 'next';
 
-const CampaignShow = ({
+interface CampaignShowProps {
+  address: string
+  minimumContribution: number
+  balance: number
+  requestCount: number
+  approversCount: number
+  manager: string
+}
+// @ts-ignore
+const CampaignShow: NextPage<CampaignShowProps> = ({
   address,
   minimumContribution,
   balance,
@@ -43,7 +54,7 @@ const CampaignShow = ({
     </Layout>
   );
 };
-
+// @ts-ignore
 CampaignShow.getInitialProps = async (ctx) => {
   const { address } = ctx.query;
   const campaign = await Campaign(address);

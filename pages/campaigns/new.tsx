@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
 import { ErrorMessage, Layout } from '@/components';
+// @ts-ignore
 import { factory, web3 } from '@/ethereum';
+// @ts-ignore
 import { Router } from '@/routes';
 
 const CampaignNewIndex = () => {
@@ -9,18 +11,21 @@ const CampaignNewIndex = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
     setIsLoading(true);
     setErrorMessage('');
     try {
-      const accounts = await web3.eth.getAccounts();
+      const accounts =
+      // @ts-ignore
+        await web3.eth.getAccounts();
       await factory.methods.createCampaign(minimumContribution).send({
         from: accounts[0],
       });
       Router.pushRoute('/');
     } catch (err) {
+      // @ts-ignore
       setErrorMessage(err.message);
     }
     setIsLoading(false);

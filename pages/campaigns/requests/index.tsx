@@ -2,9 +2,27 @@ import { useState } from 'react';
 import { Button, Table } from 'semantic-ui-react';
 import { BackLink, ErrorMessage, Layout, RequestRow } from '@/components';
 import { Campaign } from '@/ethereum';
+// @ts-ignore
 import { Link } from '@/routes';
+import { NextPage } from 'next';
 
-const RequestIndex = ({ address, requests, requestCount, approversCount }) => {
+interface Request {
+  description: string;
+  value: string;
+  recipient: string;
+  approvalCount: number;
+  complete: boolean;
+}
+
+interface RequestNewProps {
+  address: string
+   requests: Request[]
+   requestCount: string
+   approversCount: number
+
+}
+// @ts-ignore
+const RequestIndex:NextPage<RequestNewProps> = ({ address, requests, requestCount, approversCount }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const { Header, Row, HeaderCell, Body } = Table;
 
@@ -54,6 +72,7 @@ const RequestIndex = ({ address, requests, requestCount, approversCount }) => {
   );
 };
 
+// @ts-ignore
 RequestIndex.getInitialProps = async (ctx) => {
   const { address } = ctx.query;
   const campaign = Campaign(address);
@@ -62,6 +81,7 @@ RequestIndex.getInitialProps = async (ctx) => {
 
   const requests = await Promise.all(
     Array(parseInt(requestCount))
+    // @ts-ignore
       .fill()
       .map((el, index) => {
         return campaign.methods.requests(index).call();

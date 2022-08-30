@@ -1,15 +1,20 @@
+import { NextPage } from 'next';
 import { Button, Card } from 'semantic-ui-react';
-import { factory } from '@/ethereum';
 import { Layout } from '@/components';
-import { Link } from '@/routes';
+import { factory } from '@/ethereum';
+import Link from 'next/link';
 
-const CampaignIndex = ({ campaigns }) => {
+interface CampaignIndexProps {
+  campaigns: string[];
+}
+
+const CampaignIndex: NextPage<CampaignIndexProps> = ({ campaigns }) => {
   const renderCampaigns = () => {
     const items = campaigns.map((address) => {
       return {
         header: address,
         description: (
-          <Link route={`/campaigns/${address}`}>
+          <Link href={`/campaigns/${address}`}>
             <a>View Campaign</a>
           </Link>
         ),
@@ -23,7 +28,7 @@ const CampaignIndex = ({ campaigns }) => {
   return (
     <Layout>
       <h3>Open Campaigns</h3>
-      <Link route="campaigns/new">
+      <Link href="campaigns/new">
         <a>
           <Button
             content="Create Campaign"

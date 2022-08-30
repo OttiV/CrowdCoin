@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { FC, SyntheticEvent, useState } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
 import { Campaign, web3 } from '@/ethereum';
-import { Router } from '@/routes';
+import Router from '@/routes';
 import ErrorMessage from './ErrorMessage';
 
-const ContributeForm = ({ address }) => {
+interface ContributeFormProps {
+  address: string;
+}
+
+const ContributeForm: FC<ContributeFormProps> = ({ address }) => {
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     const campaign = Campaign(address);
     setLoading(true);

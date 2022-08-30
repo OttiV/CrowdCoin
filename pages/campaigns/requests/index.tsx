@@ -1,10 +1,31 @@
+import Link from 'next/link';
 import { useState } from 'react';
 import { Button, Table } from 'semantic-ui-react';
 import { BackLink, ErrorMessage, Layout, RequestRow } from '@/components';
 import { Campaign } from '@/ethereum';
-import { Link } from '@/routes';
+import { NextPage } from 'next';
 
-const RequestIndex = ({ address, requests, requestCount, approversCount }) => {
+interface Request {
+  description: string;
+  value: string;
+  recipient: string;
+  approvalCount: number;
+  complete: boolean;
+}
+
+interface RequestNewProps {
+  address: string;
+  requests: Request[];
+  requestCount: string;
+  approversCount: number;
+}
+// @ts-ignore
+const RequestIndex: NextPage<RequestNewProps> = ({
+  address,
+  requests,
+  requestCount,
+  approversCount,
+}) => {
   const [errorMessage, setErrorMessage] = useState('');
   const { Header, Row, HeaderCell, Body } = Table;
 
@@ -14,9 +35,9 @@ const RequestIndex = ({ address, requests, requestCount, approversCount }) => {
 
   return (
     <Layout>
-      <BackLink route={`/campaigns/${address}`} />
+      <BackLink href={`/campaigns/${address}`} />
       <h3>Request List</h3>
-      <Link route={`/campaigns/${address}/requests/new`}>
+      <Link href={`/campaigns/${address}/requests/new`}>
         <a>
           <Button primary floated="right" style={{ marginBottom: 10 }}>
             Add Request
@@ -54,6 +75,7 @@ const RequestIndex = ({ address, requests, requestCount, approversCount }) => {
   );
 };
 
+// @ts-ignore
 RequestIndex.getInitialProps = async (ctx) => {
   const { address } = ctx.query;
   const campaign = Campaign(address);
@@ -62,7 +84,7 @@ RequestIndex.getInitialProps = async (ctx) => {
 
   const requests = await Promise.all(
     Array(parseInt(requestCount))
-      .fill()
+      .fill(0)
       .map((el, index) => {
         return campaign.methods.requests(index).call();
       })

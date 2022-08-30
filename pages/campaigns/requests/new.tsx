@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { NextPage } from 'next';
+import { SyntheticEvent, useState } from 'react';
 import { Form, Button, Input } from 'semantic-ui-react';
 import { BackLink, ErrorMessage, Layout } from '@/components';
 import { Campaign, web3 } from '@/ethereum';
-import { Router } from '@/routes';
+import Router from '@/routes';
 
-const RequestNew = ({ address }) => {
+interface RequestNewProps {
+  address: string;
+}
+
+// @ts-ignore
+const RequestNew: NextPage<RequestNewProps> = ({ address }) => {
   const { Field } = Form;
   const [value, setValue] = useState('');
   const [description, setDescription] = useState('');
@@ -12,7 +18,7 @@ const RequestNew = ({ address }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (event) => {
+  const onSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
     const campaign = Campaign(address);
     setIsLoading(true);
@@ -32,7 +38,7 @@ const RequestNew = ({ address }) => {
 
   return (
     <Layout>
-      <BackLink route={`/campaigns/${address}/requests`} />
+      <BackLink href={`/campaigns/${address}/requests`} />
       <h3>Create a Request</h3>
       <Form onSubmit={onSubmit} error={!!errorMessage}>
         <Field>
@@ -62,6 +68,7 @@ const RequestNew = ({ address }) => {
   );
 };
 
+// @ts-ignore
 RequestNew.getInitialProps = (ctx) => {
   const { address } = ctx.query;
   return { address };

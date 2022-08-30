@@ -1,7 +1,16 @@
 import { Card } from 'semantic-ui-react';
 import { web3 } from '@/ethereum';
+import { FC } from 'react';
 
-const CampaignCardGroup = ({
+interface CampaignCardGroupProps {
+  manager: string
+  minimumContribution: number
+  requestCount: number
+  approversCount:number
+  balance: number
+}
+
+const CampaignCardGroup: FC<CampaignCardGroupProps> = ({
   manager,
   minimumContribution,
   requestCount,

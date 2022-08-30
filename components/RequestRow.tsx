@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
+import { FC, SyntheticEvent, useState } from 'react';
 import { Button, Table } from 'semantic-ui-react';
 import { Campaign, web3 } from '@/ethereum';
-import { Router } from '@/routes';
+import Router from '@/routes';
 
-const RequestRow = ({
+interface Request {
+  description: string;
+  value: string;
+  recipient: string;
+  approvalCount: number;
+  complete: boolean;
+}
+
+interface RequestRowProps {
+  id: number;
+  request: Request;
+  address: string;
+  approversCount: number;
+  setErrorMessage: (value: string) => void;
+}
+
+const RequestRow: FC<RequestRowProps> = ({
   id,
   request,
   address,
@@ -15,10 +31,11 @@ const RequestRow = ({
 
   const { Row, Cell } = Table;
   const { description, value, recipient, approvalCount, complete } = request;
+
   const amount = web3.utils.fromWei(value, 'ether');
   const isReadyToFinalize = approvalCount > approversCount / 2;
 
-  const onApprove = async (e) => {
+  const onApprove = async (e: SyntheticEvent) => {
     e.preventDefault();
     setIsApproveLoading(true);
     setErrorMessage('');

@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
 import { ErrorMessage, Layout } from '@/components';
 import { factory, web3 } from '@/ethereum';
-import { Router } from '@/routes';
+import Router from '@/routes';
 
 const CampaignNewIndex = () => {
   const [minimumContribution, setMinimumContribution] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
     setIsLoading(true);

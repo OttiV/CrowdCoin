@@ -1,9 +1,8 @@
+import Link from 'next/link'
 import { useState } from 'react';
 import { Button, Table } from 'semantic-ui-react';
 import { BackLink, ErrorMessage, Layout, RequestRow } from '@/components';
 import { Campaign } from '@/ethereum';
-// @ts-ignore
-import { Link } from '@/routes';
 import { NextPage } from 'next';
 
 interface Request {
@@ -32,9 +31,9 @@ const RequestIndex:NextPage<RequestNewProps> = ({ address, requests, requestCoun
 
   return (
     <Layout>
-      <BackLink route={`/campaigns/${address}`} />
+      <BackLink href={`/campaigns/${address}`} />
       <h3>Request List</h3>
-      <Link route={`/campaigns/${address}/requests/new`}>
+      <Link href={`/campaigns/${address}/requests/new`}>
         <a>
           <Button primary floated="right" style={{ marginBottom: 10 }}>
             Add Request

@@ -43,7 +43,7 @@ const RequestNew: NextPage<RequestNewProps> = ({ address }) => {
 
   return (
     <Layout>
-      <BackLink route={`/campaigns/${address}/requests`} />
+      <BackLink href={`/campaigns/${address}/requests`} />
       <h3>Create a Request</h3>
       <Form onSubmit={onSubmit} error={!!errorMessage}>
         <Field>

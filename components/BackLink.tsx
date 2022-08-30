@@ -1,13 +1,12 @@
-// @ts-ignore
-import { Link } from '@/routes';
+import Link from 'next/link'
 import { FC } from 'react';
 
 interface BackLinkProps{
-  route: string
+  href: string
 }
 
-const BackLink:FC<BackLinkProps> = ({ route }) => (
-  <Link route={route}>
+const BackLink:FC<BackLinkProps> = ({ href }) => (
+  <Link href={href}>
     <a>Back</a>
   </Link>
 );

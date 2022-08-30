@@ -1,8 +1,7 @@
 import { Button, Grid } from 'semantic-ui-react';
 import { CampaignCardGroup, ContributeForm, Layout } from '@/components';
 import { Campaign } from '@/ethereum';
-// @ts-ignore
-import { Link } from '@/routes';
+import Link from 'next/link'
 import { NextPage } from 'next';
 
 interface CampaignShowProps {
@@ -43,7 +42,7 @@ const CampaignShow: NextPage<CampaignShowProps> = ({
         </Row>
         <Row>
           <Column>
-            <Link route={`/campaigns/${address}/requests`}>
+            <Link href={`/campaigns/${address}/requests`}>
               <a>
                 <Button primary>View Requests</Button>
               </a>

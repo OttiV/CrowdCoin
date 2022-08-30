@@ -6,8 +6,8 @@ import { Campaign, web3 } from '@/ethereum';
 import { Router } from '@/routes';
 import { NextPage } from 'next';
 
-interface RequestNewProps{
-  address: string
+interface RequestNewProps {
+  address: string;
 }
 
 // @ts-ignore
@@ -32,7 +32,6 @@ const RequestNew: NextPage<RequestNewProps> = ({ address }) => {
 
       Router.pushRoute(`/campaigns/${address}/requests`);
     } catch (err) {
-      // @ts-ignore
       setErrorMessage(err.message);
     }
     setIsLoading(false);

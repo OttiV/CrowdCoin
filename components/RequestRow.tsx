@@ -46,7 +46,6 @@ const RequestRow: FC<RequestRowProps> = ({
       await campaign.methods.approveRequest(id).send({ from: accounts[0] });
       Router.pushRoute(`/campaigns/${address}/requests`);
     } catch (err) {
-      // @ts-ignore
       setErrorMessage(err.message);
     }
     setIsApproveLoading(false);
@@ -62,8 +61,7 @@ const RequestRow: FC<RequestRowProps> = ({
       await campaign.methods.finalizeRequest(id).send({ from: accounts[0] });
       Router.pushRoute(`/campaigns/${address}/requests`);
     } catch (err) {
-      // @ts-ignore
-      setErrorMessage(err.message); 
+      setErrorMessage(err.message);
     }
     setIsFinalizeLoading(false);
   };

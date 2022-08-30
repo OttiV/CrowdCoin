@@ -16,14 +16,12 @@ const CampaignNewIndex = () => {
     setIsLoading(true);
     setErrorMessage('');
     try {
-      const accounts =
-        await web3.eth.getAccounts();
+      const accounts = await web3.eth.getAccounts();
       await factory.methods.createCampaign(minimumContribution).send({
         from: accounts[0],
       });
       Router.pushRoute('/');
     } catch (err) {
-      // @ts-ignore
       setErrorMessage(err.message);
     }
     setIsLoading(false);

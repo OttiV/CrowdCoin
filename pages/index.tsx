@@ -2,10 +2,10 @@ import { NextPage } from 'next';
 import { Button, Card } from 'semantic-ui-react';
 import { Layout } from '@/components';
 import { factory } from '@/ethereum';
-import Link from 'next/link'
+import Link from 'next/link';
 
 interface CampaignIndexProps {
-  campaigns: string[]
+  campaigns: string[];
 }
 
 const CampaignIndex: NextPage<CampaignIndexProps> = ({ campaigns }) => {

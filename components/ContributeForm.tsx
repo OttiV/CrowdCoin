@@ -6,7 +6,7 @@ import { Router } from '@/routes';
 import ErrorMessage from './ErrorMessage';
 
 interface ContributeFormProps {
-  address: string
+  address: string;
 }
 
 const ContributeForm: FC<ContributeFormProps> = ({ address }) => {
@@ -28,7 +28,6 @@ const ContributeForm: FC<ContributeFormProps> = ({ address }) => {
       });
       Router.replaceRoute(`/campaigns/${address}`);
     } catch (err) {
-// @ts-ignore
       setErrorMessage(err.message);
     }
     setValue('');

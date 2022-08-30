@@ -1,8 +1,7 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { Button, Table } from 'semantic-ui-react';
 import { Campaign, web3 } from '@/ethereum';
-// @ts-ignore
-import { Router } from '@/routes';
+import Router from '@/routes';
 
 interface Request {
   description: string;

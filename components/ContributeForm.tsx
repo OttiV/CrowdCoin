@@ -1,8 +1,7 @@
 import React, { FC, SyntheticEvent, useState } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
 import { Campaign, web3 } from '@/ethereum';
-// @ts-ignore
-import { Router } from '@/routes';
+import Router from '@/routes';
 import ErrorMessage from './ErrorMessage';
 
 interface ContributeFormProps {

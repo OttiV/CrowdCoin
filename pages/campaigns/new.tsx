@@ -2,8 +2,7 @@ import { SyntheticEvent, useState } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
 import { ErrorMessage, Layout } from '@/components';
 import { factory, web3 } from '@/ethereum';
-// @ts-ignore
-import { Router } from '@/routes';
+import Router from '@/routes';
 
 const CampaignNewIndex = () => {
   const [minimumContribution, setMinimumContribution] = useState('');

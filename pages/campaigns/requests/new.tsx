@@ -1,10 +1,9 @@
+import { NextPage } from 'next';
 import { SyntheticEvent, useState } from 'react';
 import { Form, Button, Input } from 'semantic-ui-react';
 import { BackLink, ErrorMessage, Layout } from '@/components';
 import { Campaign, web3 } from '@/ethereum';
-// @ts-ignore
-import { Router } from '@/routes';
-import { NextPage } from 'next';
+import Router from '@/routes';
 
 interface RequestNewProps {
   address: string;

@@ -32,8 +32,10 @@ const RequestRow: FC<RequestRowProps> = ({
   const { Row, Cell } = Table;
   const { description, value, recipient, approvalCount, complete } = request;
 
+  const rowNumber = id + 1;
   const amount = web3.utils.fromWei(value, 'ether');
   const isReadyToFinalize = approvalCount > approversCount / 2;
+  const isPending = !complete;
 
   const onApprove = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -66,8 +68,8 @@ const RequestRow: FC<RequestRowProps> = ({
   };
 
   return (
-    <Row disabled={complete} positive={isReadyToFinalize && !complete}>
-      <Cell>{id}</Cell>
+    <Row disabled={complete} positive={isReadyToFinalize && isPending}>
+      <Cell>{rowNumber}</Cell>
       <Cell>{description}</Cell>
       <Cell>{amount}</Cell>
       <Cell>{recipient}</Cell>
@@ -75,7 +77,7 @@ const RequestRow: FC<RequestRowProps> = ({
         {approvalCount}/{approversCount}
       </Cell>
       <Cell>
-        {complete ? null : (
+        {isPending && (
           <Button
             color="green"
             basic
@@ -87,7 +89,7 @@ const RequestRow: FC<RequestRowProps> = ({
         )}
       </Cell>
       <Cell>
-        {complete ? null : (
+        {isPending && (
           <Button
             color="teal"
             basic
